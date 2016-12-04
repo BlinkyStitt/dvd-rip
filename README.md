@@ -6,7 +6,7 @@
 
 **UNDER CONSTRUCTION**
 
-Easily rip a DVD to an MKV using vobcopy, libdvdcss2, and handbrake-cli.
+Easily rip a DVD to an MKV using [vobcopy](http://vobcopy.org/projects/c/c.shtml) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), [libdvdcss2](http://www.videolan.org/developers/libdvdcss/doc/html/) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), and [handbrake-cli](https://handbrake.fr) ([GPLv2](https://raw.githubusercontent.com/HandBrake/HandBrake/master/LICENSE)).
 
 From http://www.videolan.org/legal.html:
 
