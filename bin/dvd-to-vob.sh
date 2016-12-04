@@ -6,9 +6,9 @@
 set -e
 
 DVD_DEV="/dev/sr0"
-DVD_MNT="/mnt/cdrom0"
+DVD_MNT="/media"
 
-mount "$DVD_MNT"
+mount "$DVD_DEV" "$DVD_MNT"
 
 DVD_NAME=$(udevadm info -n dvd -q property | sed -n 's/^ID_FS_LABEL=//p')
 if [ -z $DVD_NAME ]; then
