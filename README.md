@@ -9,10 +9,9 @@ Easily rip a DVD to an MKV
     ```
     mount /media/cdrom0 \
     && docker run \
-        --privileged \
+        --device /dev/sr0 \
         --rm \
         -it \
-        -v "/dev/sr0:/dev/sr0:ro" \
         -v "/media/cdrom0:/mnt" \
         -v "movies:/movies" \
         bwstitt/dvd-rip:latest \

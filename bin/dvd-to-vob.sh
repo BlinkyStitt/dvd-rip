@@ -1,5 +1,5 @@
 #!/bin/bash
-# convert a DVD into an MKV
+# rip a DVD
 #
 # install http://www.videolan.org/developers/libdvdcss.html
 
@@ -18,6 +18,7 @@ touch "/movies/$DVD_NAME.incoming"
 mkdir -p "/movies/$DVD_NAME"
 
 # TODO: specify DVD_DEV
+# TODO: should we just do a dd/ddrescue to an iso to avoid the mounts?
 vobcopy -M -i "$DVD_MNT" -o "/movies/$DVD_NAME" -t "$DVD_NAME"
 
 rm "/movies/$DVD_NAME.incoming"
