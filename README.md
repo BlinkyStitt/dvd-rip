@@ -9,8 +9,10 @@ Easily rip a DVD to an MKV
     ```
     mount /media/cdrom0 \
     && docker run \
+        --privileged \
         --rm \
         -it \
+        -v "/dev/sr0:/dev/sr0:ro" \
         -v "/media/cdrom0:/mnt" \
         -v "movies:/movies" \
         bwstitt/dvd-rip:latest \
@@ -31,4 +33,5 @@ Easily rip a DVD to an MKV
 
 # Todo
 
+* [ ] get dvd title without needing --privileged or -v /dev/sr0
 * [ ] udev rule to run `mount && docker run && eject` whenever a disc is inserted

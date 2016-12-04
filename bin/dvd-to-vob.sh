@@ -8,11 +8,7 @@ set -e
 DVD_MNT="/mnt"
 
 DVD_NAME=$(vobcopy -I -i "$DVD_MNT" 2>&1 | sed -n "s/\[Info\] DVD-name: //p")
-if [ -z $DVD_NAME ]; then
-  echo "Unable to find DVD_NAME"
-  exit 1
-fi
-if [ "$DVD_NAME" = "DVD_VIDEO" ]; then
+if [ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ]; then
     # TODO: figure out something deterministic
     # TODO: make this work inside a container: DVD_NAME=$(udevadm info -n dvd -q property | sed -n 's/^ID_FS_UUID=//p')
     DVD_NAME="unknown_$(date +%s)"
