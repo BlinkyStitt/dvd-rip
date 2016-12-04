@@ -14,6 +14,13 @@ if [ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ]; then
     DVD_NAME="unknown_$(date +%s)"
 fi
 
+echo "DVD_NAME: ${DVD_NAME}"
+
+if [ -d "/movies/$DVD_NAME" ]; then
+    echo "The movie already exists"
+    exit 0
+fi
+
 touch "/movies/$DVD_NAME.incoming"
 mkdir -p "/movies/$DVD_NAME"
 
