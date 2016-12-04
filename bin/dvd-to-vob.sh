@@ -5,12 +5,9 @@
 
 set -e
 
-DVD_DEV="/dev/sr0"
-DVD_MNT="/media"
+DVD_MNT="/mnt"
 
-mount "$DVD_DEV" "$DVD_MNT"
-
-DVD_NAME=$(blkid -o value -s LABEL "$DVD_DEV")
+DVD_NAME=$(vobcopy -I -i "$DVD_MNT" 2>&1 | sed -n "s/\[Info\] DVD-name: //p")
 if [ -z $DVD_NAME ]; then
   echo "Unable to find DVD_NAME"
   exit 1
@@ -21,12 +18,6 @@ if [ "$DVD_NAME" = "DVD_VIDEO" ]; then
     DVD_NAME="unknown_$(date +%s)"
 fi
 
-if [ -e "/movies/$DVD_NAME.mkv" ]; then
-  echo "DVD already exists"
-  eject "$DVD_DEV"
-  exit 0
-fi
-
 touch "/movies/$DVD_NAME.incoming"
 mkdir -p "/movies/$DVD_NAME"
 
@@ -34,9 +25,3 @@ mkdir -p "/movies/$DVD_NAME"
 vobcopy -M -i "$DVD_MNT" -o "/movies/$DVD_NAME" -t "$DVD_NAME"
 
 rm "/movies/$DVD_NAME.incoming"
-
-umount "$DVD_MNT"
-
-eject "$DVD_DEV"
-
-# TODO: write a separate script that watches vobs

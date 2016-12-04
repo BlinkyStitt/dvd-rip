@@ -7,13 +7,15 @@ Easily rip a DVD to an MKV
 1. Insert a DVD and run:
 
     ```
-    docker run \
+    mount /media/cdrom0 \
+    && docker run \
         --rm \
-        --device=/dev/sr0 \
-        --privileged \
+        -it \
+        -v "/media/cdrom0:/mnt" \
         -v "movies:/movies" \
         bwstitt/dvd-rip:latest \
-        dvd-to-vob.sh
+        dvd-to-vob.sh \
+    && eject /media/cdrom0
     ```
 
 2. Then run:
@@ -21,7 +23,12 @@ Easily rip a DVD to an MKV
     ```
     docker run \
         --rm \
+        -it \
         -v "movies:/movies" \
         bwstitt/dvd-rip:latest \
         vob-to-mkv.sh
     ```
+
+# Todo
+
+* [ ] udev rule to run `mount && docker run && eject` whenever a disc is inserted
