@@ -1,6 +1,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/WyseNynja/dockerfile-dvd-rip.svg?style=social)](https://github.com/WyseNynja/dockerfile-dvd-rip)
 [![Docker Pulls](https://img.shields.io/docker/pulls/bwstitt/dvd-rip.svg)](https://hub.docker.com/r/bwstitt/dvd-rip/)
-[![License](https://img.shields.io/github/license/WyseNynja/dockerfile-dvd-rip.svg)](https://github.com/WyseNynja/dockerfile-dvd-rip/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/WyseNynja/dockerfile-dvd-rip.svg)](https://raw.githubusercontent.com/WyseNynja/dockerfile-dvd-rip/master/LICENSE)
 
 # DVD Rip
 
