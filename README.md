@@ -23,5 +23,5 @@ Easily rip a DVD to an MKV
         --device=/dev/sr0 \
         -v "movies:/target" \
         bwstitt/dvd-rip:latest \
-        dvd-to-vob.sh
+        vob-to-mkv.sh
     ```
