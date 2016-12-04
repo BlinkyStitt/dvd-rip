@@ -1,12 +1,15 @@
 # DVD Rip
 
-Easily rip a DVD to an MKV
+**UNDER CONSTRUCTION**
+
+Easily rip a DVD to an MKV.
+
 
 # Running
 
 1. Insert a DVD and run:
 
-    ```
+    ```bash
     mount /media/cdrom0 \
     && docker run \
         --device /dev/sr0 \
@@ -21,7 +24,7 @@ Easily rip a DVD to an MKV
 
 2. Then run:
 
-    ```
+    ```bash
     docker run \
         --rm \
         -it \
@@ -30,7 +33,13 @@ Easily rip a DVD to an MKV
         vob-to-mkv.sh
     ```
 
+3. Now you have an mkv in a named volume. Move it:
+
+    ```bash
+    mv /var/lib/docker/volumes/movies/_data/*.mkv /mnt/media/movies/
+    ```
+
+
 # Todo
 
-* [ ] get dvd title without needing --privileged or -v /dev/sr0
-* [ ] udev rule to run `mount && docker run && eject` whenever a disc is inserted
+* [ ] udev rule to run the commands whenever a disc is inserted
