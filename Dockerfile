@@ -11,7 +11,6 @@ RUN wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc | apt-ke
  && docker-apt-install \
     libdvdcss2 \
     handbrake-cli \
-    udev \
     vobcopy
 
 COPY bin/* /usr/local/bin/
