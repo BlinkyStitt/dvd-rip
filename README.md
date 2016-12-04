@@ -9,6 +9,7 @@ Easily rip a DVD to an MKV
     ```
     docker run \
         --rm \
+        -it \
         --device=/dev/sr0 \
         --privileged \
         -v "movies:/movies" \
@@ -21,6 +22,7 @@ Easily rip a DVD to an MKV
     ```
     docker run \
         --rm \
+        -it \
         -v "movies:/movies" \
         bwstitt/dvd-rip:latest \
         vob-to-mkv.sh

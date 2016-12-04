@@ -31,7 +31,7 @@ touch "/movies/$DVD_NAME.incoming"
 mkdir -p "/movies/$DVD_NAME"
 
 # TODO: specify DVD_DEV
-vobcopy -M -i "$DVD_MNT" -o "/movies/$DVD_NAME" -t "$DVD_NAME"
+vobcopy -M -i "$DVD_MNT" -o "/movies/$DVD_NAME"
 
 rm "/movies/$DVD_NAME.incoming"
 
