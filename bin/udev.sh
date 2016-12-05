@@ -4,11 +4,8 @@
   echo "=========="
   date
 
-  # TODO: be more scientific about this
-  sleep 3
-
   if [ -z "$ID_FS_LABEL" ]; then
-    echo "No Label. Likely an eject"
+    echo "No Label. Ignoring"
     exit 0
   fi
 

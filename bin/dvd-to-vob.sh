@@ -17,7 +17,9 @@ SRC_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
 [ -z "$SRC_D" ] && exit 10
 
 # set all the env variables here. (happens when not entering through udev)
-[ -z "$ID_FS_LABEL" ] && eval "$(udevadm info --name="$DEVNAME" --query property --export)"
+if [ -z "$ID_FS_LABEL" ] || [ -z "$ID_FS_UUID" ]; then
+    eval "$(udevadm info --name="$DEVNAME" --query property --export)"
+fi
 
 [ -z "$DVD_NAME" ] && DVD_NAME="$ID_FS_LABEL"
 [ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ] && DVD_NAME="$ID_FS_UUID"
