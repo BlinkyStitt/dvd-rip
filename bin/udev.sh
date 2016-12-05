@@ -4,6 +4,8 @@
   echo "=========="
   date
 
+  [ -z "$ID_FS_LABEL" ] && (echo "Eject"; exit 0)
+
   # run from inside the dvd-rip/bin directory
   DIR="$(cd "$(dirname "$0")" && pwd -P)"
   cd "$DIR" || exit 1

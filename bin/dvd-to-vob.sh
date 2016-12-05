@@ -7,8 +7,9 @@
 
 set -exo pipefail
 
+DEST_D=${1:-vobs}
+
 [ -z "$DEVNAME" ] && DEVNAME="/dev/sr0"
-[ -z "$DEST_D" ] && DEST_D="vobs"
 
 # TODO: do this smarter
 mount "$DEVNAME" || true
@@ -30,6 +31,7 @@ if [ -n "$DVD_NAME" ] && [ -d "$DEST_D/$DVD_NAME" ]; then
     exit 0
 fi
 
+mkdir -p "$DEST_D"
 touch "$DEST_D/$DVD_NAME.incoming"
 
 # TODO: timeout in case the copy gets stuck

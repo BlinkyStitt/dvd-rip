@@ -44,7 +44,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 4. Create `/etc/udev/rules.d/autodvd.rules`:
 
     ```
-    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", RUN+="DEST_D=/path/to/vobs /opt/dvd-rip/bin/udev.sh"
+    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", RUN+="/opt/dvd-rip/bin/udev.sh /path/to/vobs"
     ```
 
 5. Run `udevadm control -R`
@@ -55,4 +55,5 @@ Now whenever you insert a disc into your DVD drive, it will automatically get sa
 # TODO
 
 * [ ] write vob-to-mkv.sh and have it run automatically when needed
+* [ ] don't run as root
 
