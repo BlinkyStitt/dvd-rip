@@ -22,7 +22,7 @@ fi
 
 WORK_D=$(mktemp -d -p "$DEST")
 
-vobcopy -M -i "$SRC_D" -o "$WORK_D" -t "$DVD_NAME"
+vobcopy -M -i "$SRC_D" -o "$WORK_D"
 
 DVD_NAME=$(basename "$(find "$WORK_D" -name "*-1.vob" -print -quit)")
 DVD_NAME="${DVD_NAME%-1.vob}"

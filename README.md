@@ -61,8 +61,10 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 
     set -eo pipefail
     {
-      mount -t "$ID_FS_TYPE" -o ro "$DEVNAME"
-      MNT_D=$(df "DEVNAME" | tail -1 | awk '{ printf $6 }')
+      mount -o ro "$DEVNAME"
+
+      MNT_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
+      [ -z "$MNT_D" ] && exit 1
 
       docker run \
         --device "$DEVNAME" \
@@ -76,15 +78,14 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
         dvd-to-vob.sh "$MNT_D"
 
       eject "$DEVNAME"
-
     } &>> "/var/log/autodvd.log" &
     ```
 
 2. Create `/etc/udev/rules.d/autodvd.rules`
 
     ```bash
-    ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="udf", RUN+="/usr/local/bin/autodvd"
-    ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="iso9660", RUN+="/usr/local/bin/autodvd"
+    ACTION=="add", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="udf", RUN+="/usr/local/bin/autodvd"
+    ACTION=="add", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="iso9660", RUN+="/usr/local/bin/autodvd"
     ```
 
 3. Do something to automatically convert the vobs to mkvs and then copy them to my NAS
