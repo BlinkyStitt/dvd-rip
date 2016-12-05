@@ -16,21 +16,21 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 > VideoLAN is NOT a US-based organization and is therefore outside US jurisdiction.
 
 
-# Running
+# Running Manually
 
 1. Insert a DVD and run:
 
     ```bash
-    mount /media/cdrom0 \
+    mount /dev/sr0 \
     && docker run \
         --device /dev/sr0 \
         --rm \
         -it \
-        -v "/media/cdrom0:/mnt" \
+        -v "/media/cdrom0:/media/cdrom0" \
         -v "movies:/movies" \
         bwstitt/dvd-rip:latest \
-        dvd-to-vob.sh \
-    && eject /media/cdrom0
+        dvd-to-vob.sh /media/cdrom0 /movies \
+    && eject /dev/sr0
     ```
 
 2. Then run:
@@ -51,7 +51,48 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
     ```
 
 
-# Todo
+# Running Automatically
 
-* [ ] udev rule to run the commands whenever a disc is inserted
-* [ ] set DVDCSS_CACHE (http://www.videolan.org/developers/libdvdcss/doc/html/)
+1. Create `/usr/local/bin/autodvd` and `chmod 755 /usr/local/bin/autodvd`:
+
+    ```bash
+    #!/bin/bash
+    # mount, rip, and eject a DVD
+
+    set -eo pipefail
+    {
+      mount -t "$ID_FS_TYPE" -o ro "$DEVNAME"
+      MNT_D=$(df "DEVNAME" | tail -1 | awk '{ printf $6 }')
+
+      docker run \
+        --device "$DEVNAME" \
+        --rm \
+        -it \
+        --env "ID_FS_LABEL=$ID_FS_LABEL" \
+        --env "ID_FS_UUID=$ID_FS_UUID" \
+        -v "$MNT_D:$MNT_D" \
+        -v "movies:/movies" \
+        bwstitt/dvd-rip:latest \
+        dvd-to-vob.sh "$MNT_D"
+
+      eject "$DEVNAME"
+
+    } &>> "/var/log/autodvd.log" &
+    ```
+
+2. Create `/etc/udev/rules.d/autodvd.rules`
+
+    ```bash
+    ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="udf", RUN+="/usr/local/bin/autodvd"
+    ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="iso9660", RUN+="/usr/local/bin/autodvd"
+    ```
+
+3. Do something to automatically convert the vobs to mkvs and then copy them to my NAS
+
+4. Create a cronjob to run `docker pull bwstitt/dvd-rip:latest`
+
+
+# TODO
+
+* [ ] include the autodvd script and udev rules inside the container for easy installation
+
