@@ -67,6 +67,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
       [ -z "$MNT_D" ] && exit 1
 
       # not all of the environment variables are getting set
+      # i think the dvd encryption is related
       eval $(udevadm info --name="$DEVNAME" --query property --export)
 
       docker run \
@@ -77,7 +78,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
         -i \
         -v "$MNT_D:$MNT_D" \
         -v "movies:/movies" \
-        bwstitt/dvd-rip:vobcopy_name \
+        bwstitt/dvd-rip:latest \
         dvd-to-vob.sh "$MNT_D"
 
       eject "$DEVNAME"

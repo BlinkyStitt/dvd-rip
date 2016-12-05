@@ -11,25 +11,19 @@ SRC_D="${1:-/media/cdrom0}"
 
 DEST_D="/movies"
 
-if [ -n "$ID_FS_LABEL" ] && [ -d "$DEST_D/$ID_FS_LABEL" ]; then
-    echo "Movie '$ID_FS_LABEL' already exists"
-    exit 0
-fi
-if [ -n "$ID_FS_UUID" ] && [ -d "$DEST_D/$ID_FS_UUID" ]; then
-    echo "Movie '$ID_FS_UUID' already exists"
-    exit 0
-fi
-
-WORK_D=$(mktemp -d -p "$DEST_D")
-
-vobcopy -M -i "$SRC_D" -o "$WORK_D"
-
-DVD_NAME=$(basename "$(find "$WORK_D" -name "*-1.vob" -print -quit)")
-DVD_NAME="${DVD_NAME%-1.vob}"
-
+[ -z "$DVD_NAME" ] && DVD_NAME="$ID_FS_LABEL"
+[ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ] && DVD_NAME="$ID_FS_UUID"
+[ -z "$DVD_NAME" ] && (echo "No DVD_NAME"; exit 1)
 echo "DVD_NAME: $DVD_NAME"
 
-mkdir -p "$DEST_D/.$DVD_NAME"
-mv "$WORK_D/*.vob" "$DEST_D/.$DVD_NAME/"
-mv "$DEST_D/.$DVD_NAME" "$DEST_D/$DVD_NAME"
-rm -rf "$WORK"
+if [ -n "$DVD_NAME" ] && [ -d "$DEST_D/$DVD_NAME" ]; then
+    echo "Movie '$DVD_NAME' already exists"
+    exit 0
+fi
+
+mkdir -p "$DEST_D/$DVD_NAME"
+touch "$DEST_D/$DVD_NAME.incoming"
+
+vobcopy -M -i "$SRC_D" -o "$DEST_D/$DVD_NAME" -t "$DVD_NAME"
+
+rm "$DEST_D/$DVD_NAME.incoming"
