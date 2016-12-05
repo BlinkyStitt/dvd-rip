@@ -35,7 +35,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
     apt-get update
     apt-get install \
         libdvdcss2 \
-        git-common \
+        git \
         handbrake-cli \
         vobcopy
     git clone https://github.com/WyseNynja/dvd-rip.git /opt/dvd-rip
