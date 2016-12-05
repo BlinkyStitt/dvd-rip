@@ -2,30 +2,33 @@
 # rip a DVD
 #
 # install http://www.videolan.org/developers/libdvdcss.html
+#
+# 'udevadm info -q env -n /dev/sr0' to see all env vars
 
-set -e
+set -eo pipefail
 
-DVD_MNT="/mnt"
+SRC_D="${1:-/media/cdrom0}"
 
-DVD_NAME=$(vobcopy -I -i "$DVD_MNT" 2>&1 | sed -n "s/\[Info\] DVD-name: //p")
-if [ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ]; then
-    # TODO: figure out something deterministic
-    # TODO: make this work inside a container: DVD_NAME=$(udevadm info -n dvd -q property | sed -n 's/^ID_FS_UUID=//p')
-    DVD_NAME="unknown_$(date +%s)"
+DEST_D="/movies"
+
+if [ -n "$ID_FS_LABEL" ] && [ -d "$DEST_D/$ID_FS_LABEL" ]; then
+    echo "Movie '$ID_FS_LABEL' already exists"
+    exit 0
 fi
-
-echo "DVD_NAME: ${DVD_NAME}"
-
-if [ -d "/movies/$DVD_NAME" ]; then
-    echo "The movie already exists"
+if [ -n "$ID_FS_UUID" ] && [ -d "$DEST_D/$ID_FS_UUID" ]; then
+    echo "Movie '$ID_FS_UUID' already exists"
     exit 0
 fi
 
-touch "/movies/$DVD_NAME.incoming"
-mkdir -p "/movies/$DVD_NAME"
+WORK_D=$(mktemp -d -p "$DEST")
 
-# TODO: specify DVD_DEV
-# TODO: should we just do a dd/ddrescue to an iso to avoid the mounts?
-vobcopy -M -i "$DVD_MNT" -o "/movies/$DVD_NAME" -t "$DVD_NAME"
+vobcopy -M -i "$SRC_D" -o "$WORK_D" -t "$DVD_NAME"
 
-rm "/movies/$DVD_NAME.incoming"
+DVD_NAME=$(basename "$(find "$WORK_D" -name "*-1.vob" -print -quit)")
+DVD_NAME="${DVD_NAME%-1.vob}"
+echo "DVD_NAME: $DVD_NAME"
+
+mkdir -p "$DEST_D/.$DVD_NAME"
+mv "$WORK_D/*.vob" "$DEST_D/.$DVD_NAME/"
+mv "$DEST_D/.$DVD_NAME" "$DEST_D/$DVD_NAME"
+rm -rf "$WORK"
