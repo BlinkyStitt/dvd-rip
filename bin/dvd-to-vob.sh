@@ -5,7 +5,7 @@
 #
 # 'udevadm info -q env -n /dev/sr0' to see all env vars
 
-set -exo pipefail
+set -eo pipefail
 
 DEST_D=${1:-vobs}
 
