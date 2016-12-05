@@ -5,7 +5,7 @@
   date
 
   # TODO: be more scientific about this
-  sleep 5
+  sleep 3
 
   if [ -z "$ID_FS_LABEL" ]; then
     echo "No Label. Likely an eject"

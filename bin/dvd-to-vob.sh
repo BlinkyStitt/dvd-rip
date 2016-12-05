@@ -11,8 +11,7 @@ DEST_D=${1:-vobs}
 
 [ -z "$DEVNAME" ] && DEVNAME="/dev/sr0"
 
-# TODO: do this smarter
-mount "$DEVNAME" || true
+mount "$DEVNAME"
 
 SRC_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
 [ -z "$SRC_D" ] && exit 10
@@ -38,7 +37,8 @@ mkdir -p "$DEST_D/$DVD_NAME"
 if vobcopy -M -i "$SRC_D" -o "$DEST_D/$DVD_NAME" -t "$DVD_NAME"; then
     echo "SUCCESS"
 else
-    touch "$DEST_D/$DVD_NAME.failed"
+    echo "FAILED with exit code $?"
+    rm -rf "$DEST_D/$DVD_NAME"
 fi
 
 rm "$DEST_D/$DVD_NAME.incoming"
