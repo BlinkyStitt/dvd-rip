@@ -32,7 +32,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 
     ```bash
     wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc | apt-key add -
-    apt-get udpate
+    apt-get update
     apt-get install \
         libdvdcss2 \
         git-common \
