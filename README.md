@@ -66,6 +66,9 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
       MNT_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
       [ -z "$MNT_D" ] && exit 1
 
+      # not all of the environment variables are getting set
+      eval $(udevadm info --name="$DEVNAME" --query property --export)
+
       docker run \
         --device "$DEVNAME" \
         --env "ID_FS_LABEL=$ID_FS_LABEL" \
@@ -84,8 +87,8 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 2. Create `/etc/udev/rules.d/autodvd.rules`
 
     ```bash
-    ACTION=="add", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="udf", RUN+="/usr/local/bin/autodvd"
-    ACTION=="add", KERNEL=="sr[0-9]*", ENV{ID_CDROM_DVD}=="1", ENV{ID_CDROM_MEDIA_STATE}=="complete", ENV{ID_FS_TYPE}=="iso9660", RUN+="/usr/local/bin/autodvd"
+    SUBSYSTEM=="block", KERNEL=="sr[0-9]*", ACTION=="add", RUN+="/usr/local/bin/autodvd"
+    ACTION=="add", KERNEL=="sr[0-9]*", RUN+="/usr/local/bin/autodvd"
     ```
 
 3. Do something to automatically convert the vobs to mkvs and then copy them to my NAS
