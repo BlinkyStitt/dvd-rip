@@ -24,6 +24,7 @@ fi
 mkdir -p "$DEST_D/$DVD_NAME"
 touch "$DEST_D/$DVD_NAME.incoming"
 
+# TODO: timeout in case the copy gets stuck
 vobcopy -M -i "$SRC_D" -o "$DEST_D/$DVD_NAME" -t "$DVD_NAME"
 
 rm "$DEST_D/$DVD_NAME.incoming"

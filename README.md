@@ -4,7 +4,7 @@
 
 # DVD Rip
 
-**UNDER CONSTRUCTION**
+**UNDER CONSTRUCTION:** vobcopy seems to crash under docker when it works fine on the host :'(
 
 Easily rip a DVD to an MKV using [vobcopy](http://vobcopy.org/projects/c/c.shtml) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), [libdvdcss2](http://www.videolan.org/developers/libdvdcss/doc/html/) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), and [handbrake-cli](https://handbrake.fr) ([GPLv2](https://raw.githubusercontent.com/HandBrake/HandBrake/master/LICENSE)).
 
@@ -61,7 +61,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 
     set -eo pipefail
     {
-      mount -o ro "$DEVNAME"
+      mount "$DEVNAME"
 
       MNT_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
       [ -z "$MNT_D" ] && exit 1
@@ -88,7 +88,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 2. Create `/etc/udev/rules.d/autodvd.rules`
 
     ```bash
-    SUBSYSTEM=="block", KERNEL=="sr[0-9]*", ACTION=="add", RUN+="/usr/local/bin/autodvd"
+    SUBSYSTEM=="block", ACTION=="add", KERNEL=="sr[0-9]*", RUN+="bash /usr/local/bin/autodvd"
     ```
 
 3. Do something to automatically convert the vobs to mkvs and then copy them to my NAS
