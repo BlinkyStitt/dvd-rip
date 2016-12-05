@@ -18,7 +18,7 @@ SRC_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
 
 # not all of the environment variables are getting set
 # i think the dvd encryption is related
-eval $(udevadm info --name="$DEVNAME" --query property --export)
+eval "$(udevadm info --name="$DEVNAME" --query property --export)"
 
 [ -z "$DVD_NAME" ] && DVD_NAME="$ID_FS_LABEL"
 [ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ] && DVD_NAME="$ID_FS_UUID"
