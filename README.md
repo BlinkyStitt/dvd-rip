@@ -33,7 +33,8 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
     ```bash
     wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc | apt-key add -
     apt-get update
-    apt-get install \
+    apt-get install --no-install-recommends \
+        at \
         libdvdcss2 \
         git \
         handbrake-cli \
@@ -44,7 +45,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 4. Create `/etc/udev/rules.d/autodvd.rules`:
 
     ```
-    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", RUN+="/opt/dvd-rip/bin/udev.sh /path/to/vobs"
+    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", RUN+="/bin/sh -c 'echo /opt/dvd-rip/bin/udev.sh /path/to/vobs | at now'"
     ```
 
 5. Run `udevadm control -R`
