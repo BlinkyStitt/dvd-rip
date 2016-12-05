@@ -68,13 +68,13 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 
       docker run \
         --device "$DEVNAME" \
-        --rm \
-        -it \
         --env "ID_FS_LABEL=$ID_FS_LABEL" \
         --env "ID_FS_UUID=$ID_FS_UUID" \
+        --rm \
+        -i \
         -v "$MNT_D:$MNT_D" \
         -v "movies:/movies" \
-        bwstitt/dvd-rip:latest \
+        bwstitt/dvd-rip:vobcopy_name \
         dvd-to-vob.sh "$MNT_D"
 
       eject "$DEVNAME"

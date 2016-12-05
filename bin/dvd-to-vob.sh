@@ -20,12 +20,13 @@ if [ -n "$ID_FS_UUID" ] && [ -d "$DEST_D/$ID_FS_UUID" ]; then
     exit 0
 fi
 
-WORK_D=$(mktemp -d -p "$DEST")
+WORK_D=$(mktemp -d -p "$DEST_D")
 
 vobcopy -M -i "$SRC_D" -o "$WORK_D"
 
 DVD_NAME=$(basename "$(find "$WORK_D" -name "*-1.vob" -print -quit)")
 DVD_NAME="${DVD_NAME%-1.vob}"
+
 echo "DVD_NAME: $DVD_NAME"
 
 mkdir -p "$DEST_D/.$DVD_NAME"
