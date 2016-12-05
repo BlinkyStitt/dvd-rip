@@ -17,13 +17,12 @@ mount "$DEVNAME" || true
 SRC_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
 [ -z "$SRC_D" ] && exit 10
 
-# not all of the environment variables are getting set
-# i think the dvd encryption is related
-eval "$(udevadm info --name="$DEVNAME" --query property --export)"
+# set all the env variables here. (happens when not entering through udev)
+[ -z "$ID_FS_LABEL" ] && eval "$(udevadm info --name="$DEVNAME" --query property --export)"
 
 [ -z "$DVD_NAME" ] && DVD_NAME="$ID_FS_LABEL"
 [ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ] && DVD_NAME="$ID_FS_UUID"
-[ -z "$DVD_NAME" ] && (echo "No DVD_NAME"; exit 11)  # TODO: maybe exit 0. this might just be an eject
+[ -z "$DVD_NAME" ] && (echo "No DVD_NAME"; exit 11)
 echo "DVD_NAME=$DVD_NAME"
 
 if [ -n "$DVD_NAME" ] && [ -d "$DEST_D/$DVD_NAME" ]; then
