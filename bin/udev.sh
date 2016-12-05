@@ -8,6 +8,6 @@ cd "$DIR"
   echo "=========="
   date
   env
-  dvd-to-vob.sh && EXITCODE=0 || EXITCODE=$?
+  dvd-to-vob.sh "$@" && EXITCODE=0 || EXITCODE=$?
   echo "EXITCODE: $?"
 } &>>/var/log/dvd-to-vob.log
