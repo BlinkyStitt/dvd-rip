@@ -1,12 +1,13 @@
 [![GitHub stars](https://img.shields.io/github/stars/WyseNynja/dockerfile-dvd-rip.svg?style=social)](https://github.com/WyseNynja/dockerfile-dvd-rip)
-[![Docker Pulls](https://img.shields.io/docker/pulls/bwstitt/dvd-rip.svg)](https://hub.docker.com/r/bwstitt/dvd-rip/)
 [![License](https://img.shields.io/github/license/WyseNynja/dockerfile-dvd-rip.svg)](https://raw.githubusercontent.com/WyseNynja/dockerfile-dvd-rip/master/LICENSE)
 
 # DVD Rip
 
-**UNDER CONSTRUCTION:** vobcopy seems to crash under docker when it works fine on the host :'(
+**UNDER CONSTRUCTION:**
 
 Easily rip a DVD to an MKV using [vobcopy](http://vobcopy.org/projects/c/c.shtml) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), [libdvdcss2](http://www.videolan.org/developers/libdvdcss/doc/html/) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), and [handbrake-cli](https://handbrake.fr) ([GPLv2](https://raw.githubusercontent.com/HandBrake/HandBrake/master/LICENSE)).
+
+This started off as an experiment with docker and it didn't go well, so now I'm just using system packages.
 
 From http://www.videolan.org/legal.html:
 
@@ -16,87 +17,40 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 > VideoLAN is NOT a US-based organization and is therefore outside US jurisdiction.
 
 
-# Running Manually
+# Installation on Debian
 
-1. Insert a DVD and run:
+1. Run: `apt-get install ca-certificates wget`
 
-    ```bash
-    mount /dev/sr0 \
-    && docker run \
-        --device /dev/sr0 \
-        --rm \
-        -it \
-        -v "/media/cdrom0:/media/cdrom0" \
-        -v "movies:/movies" \
-        bwstitt/dvd-rip:latest \
-        dvd-to-vob.sh /media/cdrom0 /movies \
-    && eject /dev/sr0
+2. Create `/etc/apt/sources.list.d/videolan.list`
+
+    ```
+    deb http://download.videolan.org/pub/debian/stable/ /
+    deb-src http://download.videolan.org/pub/debian/stable/ /
     ```
 
-2. Then run:
+3. Run:
 
     ```bash
-    docker run \
-        --rm \
-        -it \
-        -v "movies:/movies" \
-        bwstitt/dvd-rip:latest \
-        vob-to-mkv.sh
+    wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc | apt-key add -
+    apt-get udpate
+    apt-get install \
+        libdvdcss2 \
+        git-common \
+        handbrake-cli \
+        vobcopy
+    git clone https://github.com/WyseNynja/dvd-rip.git /opt/dvd-rip
     ```
 
-3. Now you have an mkv in a named volume. Move it:
+4. Create `/etc/udev/rules.d/autodvd.rules`:
 
-    ```bash
-    mv /var/lib/docker/volumes/movies/_data/*.mkv /mnt/media/movies/
+    ```
+    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr0", RUN+="/opt/dvd-rip/bin/udev.sh"
     ```
 
-
-# Running Automatically
-
-1. Create `/usr/local/bin/autodvd` and `chmod 755 /usr/local/bin/autodvd`:
-
-    ```bash
-    #!/bin/bash
-    # mount, rip, and eject a DVD
-
-    set -eo pipefail
-    {
-      mount "$DEVNAME"
-
-      MNT_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
-      [ -z "$MNT_D" ] && exit 1
-
-      # not all of the environment variables are getting set
-      # i think the dvd encryption is related
-      eval $(udevadm info --name="$DEVNAME" --query property --export)
-
-      docker run \
-        --device "$DEVNAME" \
-        --env "ID_FS_LABEL=$ID_FS_LABEL" \
-        --env "ID_FS_UUID=$ID_FS_UUID" \
-        --rm \
-        -i \
-        -v "$MNT_D:$MNT_D" \
-        -v "movies:/movies" \
-        bwstitt/dvd-rip:latest \
-        dvd-to-vob.sh "$MNT_D"
-
-      eject "$DEVNAME"
-    } &>> "/var/log/autodvd.log" &
-    ```
-
-2. Create `/etc/udev/rules.d/autodvd.rules`
-
-    ```bash
-    SUBSYSTEM=="block", ACTION=="add", KERNEL=="sr[0-9]*", RUN+="bash /usr/local/bin/autodvd"
-    ```
-
-3. Do something to automatically convert the vobs to mkvs and then copy them to my NAS
-
-4. Create a cronjob to run `docker pull bwstitt/dvd-rip:latest`
+Now whenever you insert a disc into your DVD drive, it will automatically get saved to your disk. Automatic conversion to a useful format is in the works.
 
 
 # TODO
 
-* [ ] include the autodvd script and udev rules inside the container for easy installation
+* [ ] write vob-to-mkv.sh and have it run automatically when needed
 
