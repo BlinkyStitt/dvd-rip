@@ -17,4 +17,4 @@
   env
   dvd-to-vob.sh "$@" && EXITCODE=0 || EXITCODE=$?
   echo "EXITCODE: $EXITCODE"
-} &>>/var/log/dvd-to-vob.log
+} &>>/var/log/dvd-to-vob.log &
