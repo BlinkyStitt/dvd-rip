@@ -47,6 +47,7 @@ if [ -d "$VOB_D/$DVD_NAME" ]; then
     exit 0
 elif [ -d "$VOB_D/.$DVD_NAME]" ]; then
     echo "WARNING: Cleaning up previous workdir..."
+    # TODO: can we make vobcopy smart enough to reuse it?
     rm -rf "$VOB_D/.$DVD_NAME"
 fi
 
@@ -54,13 +55,14 @@ mkdir -p "$VOB_D/.$DVD_NAME"
 
 # TODO: timeout in case the copy gets stuck
 echo "Starting vobcopy to '$VOB_D/.$DVD_NAME'..."
-if ! vobcopy \
+vobcopy \
     --large-file \
     --input-dir "$SRC_D" \
     -o "$VOB_D/.$DVD_NAME" \
-    -t "$DVD_NAME"
-then
-    echo "FAILED with exit code $?"
+    -t "$DVD_NAME" \
+&& EXIT_CODE=0 || EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+    echo "FAILED with exit code $EXIT_CODE"
     eject "$DEVNAME"
     exit 12
 fi
