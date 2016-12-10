@@ -41,6 +41,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
         mailutils \
         vobcopy
     git clone https://github.com/WyseNynja/dvd-rip.git /opt/dvd-rip
+    mkdir -p /var/log/dvd-rip
     ```
 
 4. Create `/etc/udev/rules.d/autodvd.rules`:
