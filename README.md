@@ -35,9 +35,10 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
     apt-get update
     apt-get install --no-install-recommends \
         at \
-        libdvdcss2 \
         git \
         handbrake-cli \
+        libdvdcss2 \
+        mailutils \
         vobcopy
     git clone https://github.com/WyseNynja/dvd-rip.git /opt/dvd-rip
     ```
@@ -45,7 +46,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 4. Create `/etc/udev/rules.d/autodvd.rules`:
 
     ```
-    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_FS_LABEL}!="", RUN+="/bin/sh -c 'echo /opt/dvd-rip/bin/udev.sh /path/to/vobs /path/to/movies | at now'"
+    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_FS_LABEL}!="", RUN+="/opt/dvd-rip/bin/udev.sh /path/to/vobs /path/to/movies"
     ```
 
 5. Run `udevadm control -R`

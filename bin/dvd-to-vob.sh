@@ -8,6 +8,8 @@
 set -eo pipefail
 shopt -s nullglob
 
+DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+
 VOB_D=${1:-vobs}
 MOVIE_D=${2:-movies}
 
@@ -64,5 +66,5 @@ fi
 echo "SUCCESS"
 eject "$DEVNAME"
 
-# TODO: I think this might better belong in the udev script, but we don't have the dvd name there
-echo "$(pwd)/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" | batch
+echo "Scheduling transcode..."
+echo "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" | batch
