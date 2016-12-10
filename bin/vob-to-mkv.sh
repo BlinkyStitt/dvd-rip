@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 set -eo pipefail
 shopt -s nullglob
@@ -28,20 +28,32 @@ eexit() {
     exit 1
 }
 
+cat_and_cleanup() {
+    local output="$1"
+    shift
+
+    cat "$@" >"$output" && rm -f "$@"
+}
+
 transcode() {
-    local vob_dir=${1:?}
+    local src_dir=${1:?}
 
     local movie_name
-    movie_name=$(basename "$vob_dir")
+    movie_name=$(basename "$src_dir")
 
     # mkv has better subtitle support than mp4
     local movie_path=${2:?}/${movie_name}.mkv
 
     local all_the_tracks=1,2,3,4,5,6,7,8,9,10
 
+    if [ "$(find "$src_dir" -name "*.vob" -c)" -gt 1 ]; then
+        echo "Multple vobs found. Combining them now..."
+        cat_and_cleanup "$src_dir/$movie_name.vob" "$src_dir"/*.vob
+    fi
+
     HandBrakeCLI \
         --audio "$all_the_tracks" \
-        --input "$vob_dir" \
+        --input "$src_dir" \
         --main-feature \
         --markers \
         --native-language eng \
