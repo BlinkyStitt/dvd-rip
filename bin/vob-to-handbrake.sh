@@ -34,8 +34,7 @@ transcode() {
         --output "$movie_path" \
         --preset "High Profile" \
         --subtitle "scan,$all_the_tracks" \
-        --subtitle-default=1 \
-        --two-pass
+        --subtitle-default=1
     return $?
 }
 
