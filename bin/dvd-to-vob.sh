@@ -8,6 +8,9 @@
 set -eo pipefail
 shopt -s nullglob
 
+echo "===="
+uptime
+
 DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 
 VOB_D=${1:?}

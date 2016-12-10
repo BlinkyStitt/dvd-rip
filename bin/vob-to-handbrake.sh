@@ -42,6 +42,9 @@ transcode() {
 }
 
 main() {
+    echo "===="
+    uptime
+
     # TODO: proper usage
     local vob_dir=${1:?}
     local movie_path=${2:?}
