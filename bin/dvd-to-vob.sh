@@ -8,7 +8,8 @@
 set -eo pipefail
 shopt -s nullglob
 
-DEST_D=${1:-vobs}
+VOB_D=${1:-vobs}
+MOVIE_D=${2:-movies}
 
 [ -z "$DEVNAME" ] && DEVNAME="/dev/sr0"
 
@@ -36,29 +37,32 @@ fi
 
 echo "DVD_NAME=$DVD_NAME"
 
-if [ -d "$DEST_D/$DVD_NAME" ]; then
+if [ -d "$VOB_D/$DVD_NAME" ]; then
     echo "Movie '$DVD_NAME' already exists. Nothing to do"
     exit 0
-elif [ -d "$DEST_D/.$DVD_NAME]" ]; then
+elif [ -d "$VOB_D/.$DVD_NAME]" ]; then
     echo "WARNING: Cleaning up previous workdir..."
-    rm -rf "$DEST_D/.$DVD_NAME"
+    rm -rf "$VOB_D/.$DVD_NAME"
 fi
 
-mkdir -p "$DEST_D/.$DVD_NAME"
+mkdir -p "$VOB_D/.$DVD_NAME"
 
 # TODO: timeout in case the copy gets stuck
-echo "Starting copy to $DEST_D..."
+echo "Starting copy to $VOB_D..."
 if ! vobcopy \
     --large-file \
     --input-dir "$SRC_D" \
-    -o "$DEST_D/.$DVD_NAME" \
+    -o "$VOB_D/.$DVD_NAME" \
     -t "$DVD_NAME"
 then
     echo "FAILED with exit code $?"
-    rm -rf "${DEST_D:?}/.$DVD_NAME"
+    rm -rf "${VOB_D:?}/.$DVD_NAME"
     eject "$DEVNAME"
     exit 12
 fi
 
 echo "SUCCESS"
 eject "$DEVNAME"
+
+# TODO: I think this might better belong in the udev script, but we don't have the dvd name there
+echo "$(pwd)/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" | batch

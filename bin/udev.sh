@@ -16,4 +16,4 @@
 
   dvd-to-mp4.sh "$@" && EXITCODE=0 || EXITCODE=$?
   echo "EXITCODE: $EXITCODE"
-} &>>/var/log/dvd-to-mp4.log &
+} &>>/var/log/dvd-to-vob.log &
