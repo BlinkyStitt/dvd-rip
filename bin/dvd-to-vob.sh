@@ -68,7 +68,6 @@ vobcopy \
 && EXIT_CODE=0 || EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
     echo "FAILED with exit code $EXIT_CODE"
-    rm -rf "$VOB_D/.$DVD_NAME"  # i don't think partials are resumable
     eject "$DEVNAME"
     exit 12
 fi
