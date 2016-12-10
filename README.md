@@ -53,8 +53,19 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 Now whenever you insert a disc into your DVD drive, it will automatically get saved to whatever you put for `/path/to/vobs`. Automatic conversion to a useful format is in the works.
 
 
+# Development
+
+Here's a udev rule I found useful for debugging:
+
+    ```
+    SUBSYSTEM=="block", KERNEL=="sr[0-9]*", RUN+="/bin/sh -c 'echo == >> /var/log/dvd-rip.env; env >>/var/log/dvd-rip.env'"
+    ```
+
+For a shell, run: `docker run --rm -it bwstitt/dvd-rip bash`
+
+
 # TODO
 
 * [ ] write vob-to-mkv.sh and have it run automatically when needed
 * [ ] don't run as root
-
+* [ ] only trigger udev rule on disc insert instead of on all changes
