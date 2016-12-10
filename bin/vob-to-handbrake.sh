@@ -24,17 +24,33 @@ transcode() {
         cat_and_cleanup "$src_dir/combined.vob" "$src_dir"/*.vob
     fi
 
-    # TODO: subtitles sometime cause errors. maybe try with if they don't work, try without and try to extract a .srt
-    HandBrakeCLI \
-        --audio "$all_the_tracks" \
-        --input "$src_dir" \
-        --main-feature \
-        --markers \
-        --native-language eng \
-        --optimize \
-        --output "$movie_path" \
-        --preset "High Profile" \
+    # TODO: subtitles sometime cause errors. maybe try with and fallback if they don't work
+    # TODO: do we actually want --native-language here? might be better to do that manually
+    local handbrake_flags=(
+        --audio "$all_the_tracks"
+        --input "$src_dir"
+        --main-feature
+        --markers
+        --optimize
+        --output "$movie_path"
+        --preset "High Profile"
+    )
+    local subtitle_flags=(
+        --native-language eng
         --subtitle "scan,$all_the_tracks"
+        --subtitle-default=1
+    )
+
+    # try automatically setting up the subtitles
+    if HandbrakeCLI "${handbrake_flags[@]}" "${subtitle_flags[@]}"; then
+        echo "Transcoding with subtitles succeeded"
+    else
+        echo "Transcoding with subtitles FAILED. Trying again without"
+        HandbrakeCLI "${handbrake_flags[@]}"
+
+        touch "${movie_path}.subtitles_missing"
+        echo "TODO: extract subtitles and add them seperately"
+    fi
 
     return $?
 }
