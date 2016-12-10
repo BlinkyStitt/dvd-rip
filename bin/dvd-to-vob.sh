@@ -34,7 +34,7 @@ if [ -z "$ID_FS_LABEL" ] || [ -z "$ID_FS_UUID" ]; then
 fi
 
 [ -z "$DVD_NAME" ] && DVD_NAME="$ID_FS_LABEL"
-[ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ] && DVD_NAME="$ID_FS_UUID"
+([ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ] || [ "$DVD_NAME" = "SONY" ]) && DVD_NAME="$ID_FS_UUID"
 if [ -z "$DVD_NAME" ]; then
     echo "ERROR: No DVD_NAME"
     eject "$DEVNAME"
