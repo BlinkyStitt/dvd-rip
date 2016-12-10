@@ -7,6 +7,8 @@ DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
   pwd
   env
   echo "args: $*"
+  # TODO: log the command we are scheduling
 } >>/var/log/dvd-rip.env
 
-echo "$DVD_RIP_BIN_DIR/dvd-to-vob.sh" "$@" ">>/var/log/dvd-to-vob.log" | at now
+# TODO: how can we properly use $@ here?
+echo "\"$DVD_RIP_BIN_DIR/dvd-to-vob.sh\" \"$1\" \"$2\" >>/var/log/dvd-to-vob.log" | at now

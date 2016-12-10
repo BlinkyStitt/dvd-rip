@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -exo pipefail
+set -eo pipefail
 shopt -s nullglob
 
 cat_and_cleanup() {

@@ -53,7 +53,7 @@ fi
 mkdir -p "$VOB_D/.$DVD_NAME"
 
 # TODO: timeout in case the copy gets stuck
-echo "Starting copy to $VOB_D..."
+echo "Starting vobcopy to '$VOB_D/.$DVD_NAME'..."
 if ! vobcopy \
     --large-file \
     --input-dir "$SRC_D" \
@@ -71,4 +71,8 @@ echo "SUCCESS! $VOB_D/$DVD_NAME"
 eject "$DEVNAME"
 
 echo "Scheduling transcode..."
-echo "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" ">>/var/log/vob-to-handbrake.log" | batch
+# TODO: log the command we are about to run
+# TODO: log the command to a file instead of mail
+echo "\"$DVD_RIP_BIN_DIR/vob-to-handbrake.sh\" \"$VOB_D/$DVD_NAME\" \"$MOVIE_D/$DVD_NAME.mkv\" >>/var/log/vob-to-handbrake.log" | batch
+
+echo "SUCCESS for $DVD_NAME!"
