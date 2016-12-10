@@ -46,6 +46,8 @@ main() {
     local vob_dir=${1:?}
     local movie_path=${2:?}
 
+    vob_dir=${vob_dir%/}
+
     echo "Transcoding $vob_dir -> $movie_path..."
     transcode "$vob_dir" "$movie_path"
 
