@@ -71,5 +71,4 @@ echo "SUCCESS! $VOB_D/$DVD_NAME"
 eject "$DEVNAME"
 
 echo "Scheduling transcode..."
-# TODO: send logs somewhere instead of to mail?
-echo "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" | batch
+echo "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" ">>/var/log/vob-to-handbrake.log" | batch

@@ -9,5 +9,4 @@ DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
   echo "args: $*"
 } >>/var/log/dvd-rip.env
 
-# TODO: send logs somewhere instead of to mail?
-echo "$DVD_RIP_BIN_DIR/dvd-to-vob.sh" "$@" | at now
+echo "$DVD_RIP_BIN_DIR/dvd-to-vob.sh" "$@" ">>/var/log/dvd-to-vob.log" | at now

@@ -56,5 +56,4 @@ main() {
     echo "SUCCESS creating $movie_path"
 }
 
-# TODO: send logs somewhere?
 main "$@"
