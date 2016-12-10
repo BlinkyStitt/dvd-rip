@@ -11,4 +11,4 @@ DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 } >>/var/log/dvd-rip.env
 
 # TODO: how can we properly use $@ here?
-echo "\"$DVD_RIP_BIN_DIR/dvd-to-vob.sh\" \"$1\" \"$2\" >>/var/log/dvd-to-vob.log" | at now
+echo "\"$DVD_RIP_BIN_DIR/dvd-to-vob.sh\" \"$1\" \"$2\" >>/var/log/dvd-to-vob.log" | tee >(at now)

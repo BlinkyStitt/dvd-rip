@@ -75,6 +75,6 @@ eject "$DEVNAME"
 echo "Scheduling transcode..."
 # TODO: log the command we are about to run
 # TODO: log the command to a file instead of mail
-echo "\"$DVD_RIP_BIN_DIR/vob-to-handbrake.sh\" \"$VOB_D/$DVD_NAME\" \"$MOVIE_D/$DVD_NAME.mkv\" >>/var/log/vob-to-handbrake.log" | batch
+echo "\"$DVD_RIP_BIN_DIR/vob-to-handbrake.sh\" \"$VOB_D/$DVD_NAME\" \"$MOVIE_D/$DVD_NAME.mkv\" >>/var/log/vob-to-handbrake.log" | tee >(batch)
 
 echo "SUCCESS for $DVD_NAME!"
