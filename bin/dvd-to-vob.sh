@@ -58,7 +58,6 @@ if ! vobcopy \
     -t "$DVD_NAME"
 then
     echo "FAILED with exit code $?"
-    rm -rf "${VOB_D:?}/.$DVD_NAME"
     eject "$DEVNAME"
     exit 12
 fi
