@@ -24,7 +24,7 @@ transcode() {
         cat_and_cleanup "$src_dir/combined.vob" "$src_dir"/*.vob
     fi
 
-    # TODO: subtitles sometime cause errors. maybe try with and fallback if they don't work
+    # TODO: subtitles sometime cause errors. maybe try with if they don't work, try without and try to extract a .srt
     HandBrakeCLI \
         --audio "$all_the_tracks" \
         --input "$src_dir" \
