@@ -65,7 +65,9 @@ then
     exit 12
 fi
 
-echo "SUCCESS"
+mv "$VOB_D/.$DVD_NAME" "$VOB_D/$DVD_NAME"
+echo "SUCCESS! $VOB_D/$DVD_NAME"
+
 eject "$DEVNAME"
 
 echo "Scheduling transcode..."

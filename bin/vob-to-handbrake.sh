@@ -32,9 +32,12 @@ transcode() {
         --native-language eng \
         --optimize \
         --output "$movie_path" \
-        --preset "High Profile" \
-        --subtitle "scan,$all_the_tracks" \
-        --subtitle-default=1
+        --preset "High Profile"
+
+        # TODO: this would be nice, but its erring sometimes. extract them to srt files instead?
+        # --subtitle "scan,$all_the_tracks" \
+        # --subtitle-default=1
+
     return $?
 }
 
