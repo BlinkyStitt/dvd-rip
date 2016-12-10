@@ -45,7 +45,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 4. Create `/etc/udev/rules.d/autodvd.rules`:
 
     ```
-    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", RUN+="/bin/sh -c 'echo /opt/dvd-rip/bin/udev.sh /path/to/vobs | at now'"
+    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_FS_LABEL}!="", RUN+="/bin/sh -c 'echo /opt/dvd-rip/bin/udev.sh /path/to/vobs | at now'"
     ```
 
 5. Run `udevadm control -R`
@@ -68,4 +68,3 @@ For a shell, run: `docker run --rm -it bwstitt/dvd-rip bash`
 
 * [ ] write vob-to-mkv.sh and have it run automatically when needed
 * [ ] don't run as root
-* [ ] only trigger udev rule on disc insert instead of on all changes

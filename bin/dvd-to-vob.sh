@@ -6,6 +6,7 @@
 # 'udevadm info -q env -n /dev/sr0' to see all env vars
 
 set -eo pipefail
+shopt -s nullglob
 
 DEST_D=${1:-vobs}
 
@@ -47,17 +48,17 @@ mkdir -p "$DEST_D/.$DVD_NAME"
 
 # TODO: timeout in case the copy gets stuck
 echo "Starting copy to $DEST_D..."
-if vobcopy \
+if ! vobcopy \
     --large-file \
     --input-dir "$SRC_D" \
     -o "$DEST_D/.$DVD_NAME" \
     -t "$DVD_NAME"
 then
-    echo "SUCCESS"
-    mv "$DEST_D/.$DVD_NAME" "$DEST_D/$DVD_NAME"
-else
     echo "FAILED with exit code $?"
     rm -rf "${DEST_D:?}/.$DVD_NAME"
+    eject "$DEVNAME"
+    exit 12
 fi
 
+echo "SUCCESS"
 eject "$DEVNAME"
