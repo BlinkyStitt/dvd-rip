@@ -61,13 +61,14 @@ mkdir -p "$VOB_D/.$DVD_NAME"
 # TODO: timeout in case the copy gets stuck
 echo "Starting vobcopy to '$VOB_D/.$DVD_NAME'..."
 vobcopy \
-    --large-file \
     --input-dir "$SRC_D" \
-    -o "$VOB_D/.$DVD_NAME" \
-    -t "$DVD_NAME" \
+    --large-file \
+    --name "$DVD_NAME" \
+    --output-dir "$VOB_D/.$DVD_NAME" \
 && EXIT_CODE=0 || EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
     echo "FAILED with exit code $EXIT_CODE"
+    rm -rf "$VOB_D/.$DVD_NAME"  # i don't think partials are resumable
     eject "$DEVNAME"
     exit 12
 fi
