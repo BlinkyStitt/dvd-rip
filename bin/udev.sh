@@ -14,6 +14,6 @@
   cd "$DIR" || exit 1
   pwd
 
-  dvd-to-mp4.sh "$@" && EXITCODE=0 || EXITCODE=$?
+  dvd-to-vob.sh "$@" && EXITCODE=0 || EXITCODE=$?
   echo "EXITCODE: $EXITCODE"
 } &>>/var/log/dvd-to-vob.log &
