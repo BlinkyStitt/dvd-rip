@@ -10,8 +10,8 @@ shopt -s nullglob
 
 DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 
-VOB_D=${1:-vobs}
-MOVIE_D=${2:-movies}
+VOB_D=${1:?}
+MOVIE_D=${2:?}
 
 [ -z "$DEVNAME" ] && DEVNAME="/dev/sr0"
 
@@ -66,4 +66,4 @@ echo "SUCCESS"
 eject "$DEVNAME"
 
 echo "Scheduling transcode..."
-echo /bin/bash -c "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" | batch
+echo "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" >/var/log/vob-to-handbrake.log | batch

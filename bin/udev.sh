@@ -9,4 +9,4 @@ DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
   echo "args: $*"
 } >>/var/log/dvd-rip.env
 
-echo /bin/bash -c "$DVD_RIP_BIN_DIR/dvd-to-vob.sh" "$@" | at now
+echo "$DVD_RIP_BIN_DIR/dvd-to-vob.sh" "$@" >/var/log/dvd-to-vob.log | at now
