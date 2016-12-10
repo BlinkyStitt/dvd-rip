@@ -46,7 +46,7 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 4. Create `/etc/udev/rules.d/autodvd.rules`:
 
     ```
-    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_FS_LABEL}!="", RUN+="/opt/dvd-rip/bin/udev.sh /path/to/vobs /path/to/movies"
+    SUBSYSTEM=="block", ACTION=="change", KERNEL=="sr[0-9]*", ENV{ID_FS_LABEL}!="", RUN+="/bin/bash -c /opt/dvd-rip/bin/udev.sh /path/to/vobs /path/to/movies"
     ```
 
 5. Run `udevadm control -R`

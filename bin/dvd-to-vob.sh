@@ -66,4 +66,4 @@ echo "SUCCESS"
 eject "$DEVNAME"
 
 echo "Scheduling transcode..."
-echo "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" | batch
+echo /bin/bash -c "$DVD_RIP_BIN_DIR/vob-to-handbrake.sh" "$VOB_D/$DVD_NAME" "$MOVIE_D/$DVD_NAME.mkv" | batch
