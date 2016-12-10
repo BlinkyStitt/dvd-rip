@@ -52,7 +52,9 @@ This method is authorized by a French law decision CE 10e et 9e sous­sect., 16 
 
 5. Run `udevadm control -R`
 
-Now whenever you insert a disc into your DVD drive, it will automatically get saved to whatever you put for `/path/to/vobs` and then eject. Then a conversion to a useful video format is queued. The conversion takes far longer than the copy and its setup to only do one conversion at a time. Once complete, the movie will be between 1 and 2 GB in /path/to/movies.
+Now whenever you insert a disc into your DVD drive, the raw data is saved to whatever you put for `/path/to/vobs` and then the disc is ejected and you can put the next disc in.
+
+These files are watchable, but they are large and not well supported so a conversion to the MKV format is queued. This conversion takes far longer than the copy and it is setup to only do one conversion at a time to keep your computer from being too slow. Once complete, the movie will be between 1 and 2 GB in `/path/to/movies`.
 
 
 # Development
@@ -67,3 +69,4 @@ Here's a udev rule I found useful for debugging:
 # TODO
 
 * [ ] don't run as root
+* [ ] automatically cleanup vobs better when transcode complete
