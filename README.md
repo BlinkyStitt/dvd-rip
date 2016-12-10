@@ -61,9 +61,7 @@ These files are watchable, but they are large and not well supported so a conver
 
 Here's a udev rule I found useful for debugging:
 
-    ```
     SUBSYSTEM=="block", KERNEL=="sr[0-9]*", RUN+="/bin/sh -c 'echo == >> /var/log/dvd-rip/udev.env; env >>/var/log/dvd-rip/udev.env'"
-    ```
 
 
 # TODO
