@@ -11,10 +11,13 @@ shopt -s nullglob
 DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 
 VOB_D=${1:?}
+echo "VOB_D=$VOB_D"
+
 MOVIE_D=${2:?}
+echo "MOVIE_D=$MOVIE_D"
 
 [ -z "$DEVNAME" ] && DEVNAME="/dev/sr0"
-
+echo "DEVNAME=$DEVNAME"
 mount "$DEVNAME"
 
 SRC_D=$(df "$DEVNAME" | tail -1 | awk '{ printf $6 }')
@@ -26,6 +29,7 @@ fi
 
 # set all the env variables here. (happens when not entering through udev)
 if [ -z "$ID_FS_LABEL" ] || [ -z "$ID_FS_UUID" ]; then
+    echo "Exporting device properties..."
     eval "$(udevadm info --name="$DEVNAME" --query property --export)"
 fi
 
@@ -36,7 +40,6 @@ if [ -z "$DVD_NAME" ]; then
     eject "$DEVNAME"
     exit 11
 fi
-
 echo "DVD_NAME=$DVD_NAME"
 
 if [ -d "$VOB_D/$DVD_NAME" ]; then
