@@ -4,6 +4,8 @@
 # install http://www.videolan.org/developers/libdvdcss.html
 #
 # 'udevadm info -q env -n /dev/sr0' to see all env vars
+#
+# TODO: put things in proper functions like vob-to-handbrake.sh?
 
 set -eo pipefail
 shopt -s nullglob
