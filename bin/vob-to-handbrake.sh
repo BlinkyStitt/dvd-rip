@@ -45,14 +45,14 @@ transcode() {
     )
 
     # try transcoding with subtitles
-    if HandbrakeCLI "${handbrake_flags[@]}" "${subtitle_flags[@]}"; then
+    if HandBrakeCLI "${handbrake_flags[@]}" "${subtitle_flags[@]}"; then
         echo "Transcoding with subtitles succeeded"
     else
         # delete the broken file
         rm -f "$movie_path"
 
         echo "Transcoding with subtitles FAILED. Trying again without"
-        HandbrakeCLI "${handbrake_flags[@]}"
+        HandBrakeCLI "${handbrake_flags[@]}"
 
         touch "${movie_path}.subtitles_missing"
         echo "TODO: extract subtitles and add them seperately"
