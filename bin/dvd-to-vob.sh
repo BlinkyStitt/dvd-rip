@@ -37,6 +37,9 @@ if [ -z "$ID_FS_LABEL" ] || [ -z "$ID_FS_UUID" ]; then
     echo "Exporting device properties..."
     eval "$(udevadm info --name="$DEVNAME" --query property --export)"
 fi
+
+# sometimes ID_FS_LABEL is useless things like "DVD_VIDEO" or "SONY"
+# and sometimes sequels have the same name on the DVD
 DVD_NAME="${ID_FS_LABEL}_${ID_FS_UUID}"
 if [ -z "$ID_FS_LABEL" ] || [ -z "$ID_FS_UUID" ]; then
     echo "ERROR: Both ID_FS_LABEL and ID_FS_UUID are required: $DVD_NAME"
