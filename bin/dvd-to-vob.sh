@@ -50,7 +50,9 @@ echo "DVD_NAME=$DVD_NAME"
 if [ -d "$VOB_D/$DVD_NAME" ]; then
     echo "Movie '$DVD_NAME' already exists. Nothing to do"
     exit 0
-elif [ -d "$VOB_D/.$DVD_NAME]" ]; then
+fi
+
+if [ -d "$VOB_D/.$DVD_NAME" ]; then
     echo "WARNING: Cleaning up previous workdir..."
     # TODO: can we make vobcopy smart enough to reuse it?
     rm -rf "$VOB_D/.$DVD_NAME"
