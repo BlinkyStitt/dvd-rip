@@ -5,7 +5,7 @@
 #
 # 'udevadm info -q env -n /dev/sr0' to see all env vars
 #
-# TODO: put things in proper functions like vob-to-handbrake.sh?
+# TODO: put things in proper functions like vob-to-handbrake.sh
 
 set -eo pipefail
 shopt -s nullglob
@@ -37,11 +37,9 @@ if [ -z "$ID_FS_LABEL" ] || [ -z "$ID_FS_UUID" ]; then
     echo "Exporting device properties..."
     eval "$(udevadm info --name="$DEVNAME" --query property --export)"
 fi
-
-[ -z "$DVD_NAME" ] && DVD_NAME="$ID_FS_LABEL"
-([ -z "$DVD_NAME" ] || [ "$DVD_NAME" = "DVD_VIDEO" ] || [ "$DVD_NAME" = "SONY" ]) && DVD_NAME="$ID_FS_UUID"
-if [ -z "$DVD_NAME" ]; then
-    echo "ERROR: No DVD_NAME"
+DVD_NAME="${ID_FS_LABEL}_${ID_FS_UUID}"
+if [ -z "$ID_FS_LABEL" ] || [ -z "$ID_FS_UUID" ]; then
+    echo "ERROR: Both ID_FS_LABEL and ID_FS_UUID are required: $DVD_NAME"
     eject "$DEVNAME"
     exit 11
 fi
@@ -49,6 +47,7 @@ echo "DVD_NAME=$DVD_NAME"
 
 if [ -d "$VOB_D/$DVD_NAME" ]; then
     echo "Movie '$DVD_NAME' already exists. Nothing to do"
+    eject "$DEVNAME"
     exit 0
 fi
 
@@ -82,6 +81,6 @@ eject "$DEVNAME"
 echo "Scheduling transcode..."
 # TODO: log the command we are about to run
 # TODO: log the command to a file instead of mail
-echo "\"$DVD_RIP_BIN_DIR/vob-to-handbrake.sh\" \"$VOB_D/$DVD_NAME\" \"$MOVIE_D/$DVD_NAME.mkv\" >>\"/var/log/dvd-rip/vob-to-handbrake.$DVD_NAME.log\" 2>&1" | tee >(batch)
+echo "\"$DVD_RIP_BIN_DIR/vob-to-handbrake.sh\" \"$VOB_D/$DVD_NAME\" \"$MOVIE_D\" \"$DVD_NAME.mkv\" >>\"/var/log/dvd-rip/vob-to-handbrake.$DVD_NAME.log\" 2>&1" | tee >(batch)
 
 echo "SUCCESS for $DVD_NAME!"

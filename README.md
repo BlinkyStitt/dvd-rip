@@ -68,3 +68,4 @@ Here's a udev rule I found useful for debugging:
 
 * [ ] don't run as root
 * [ ] automatically cleanup vobs better when transcode complete
+* [ ] configurable native language
