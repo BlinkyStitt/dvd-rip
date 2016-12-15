@@ -75,6 +75,11 @@ main() {
     vob_dir=${vob_dir%/}
     movie_dir=${movie_dir%/}
 
+    if [ -e "$movie_dir/$movie_name.mkv" ]; then
+        echo "Movie already transcoded"
+        return
+    fi
+
     echo "Transcoding $vob_dir -> $movie_dir/$movie_name..."
     transcode "$vob_dir" "$movie_dir" "$movie_name"
 
