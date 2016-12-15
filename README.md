@@ -54,6 +54,8 @@ Now whenever you insert a disc into your DVD drive, the raw data is saved to wha
 
 These files are watchable, but they are large and not well supported so a conversion to the MKV format is queued. This conversion takes far longer than the copy and it is setup to only do one conversion at a time to keep your computer from being too slow. Once complete, the movie will be between 1 and 2 GB in `/path/to/movies`.
 
+6. If you reboot or whatever, you can resume the transcodes by running `/opt/dvd-rip/bin/queue-vob-to-handbrake.sh`
+
 
 # Development
 
