@@ -1,7 +1,7 @@
 #!/bin/bash
 # queue vobs that aren't haven't already been transcoded
 
-set -exo pipefail
+set -eo pipefail
 
 DVD_RIP_BIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 
@@ -17,6 +17,7 @@ for x in *; do
   if [[ "$x" == *.done ]]; then
     continue
   fi
+
   if [ -e "$movie_dir/$x.mkv" ]; then
     mv "$x" "$x.done"
     continue
