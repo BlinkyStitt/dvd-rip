@@ -87,7 +87,7 @@ main() {
     # todo: eventually we can automatically delete, but lets make sure it works first
     mv "$vob_dir" "$vob_dir.done"
 
-    echo "SUCCESS creating $movie_path"
+    echo "SUCCESS creating $movie_dir/$movie_name"
 }
 
 main "$@"
