@@ -25,7 +25,7 @@ transcode() {
     # TODO: at the same time, every system i care about supports large files
     if [ "$(find "$src_dir" -name "*.vob" -print | wc -l)" -gt 1 ]; then
         echo "Multple vobs found. Combining them now..."
-        cat_and_cleanup "${src_dir}/${movie_name}.vob" "$src_dir"/*.vob
+        cat_and_cleanup "${src_dir}/${movie_name%.*}.vob" "$src_dir"/*.vob
     fi
 
     # TODO: make all these configurable
@@ -52,15 +52,18 @@ transcode() {
         rm -f "$movie_path"
 
         echo "Transcoding with subtitles FAILED. Trying again without"
-        HandBrakeCLI "${handbrake_flags[@]}"
+        if ! HandBrakeCLI "${handbrake_flags[@]}"; then
+            # delete the broken file
+            rm -f "$movie_path"
+            echo "Transcoding without subtitles FAILED."
+            return 1
+        fi
 
         touch "${movie_path}.subtitles_missing"
         echo "TODO: extract subtitles and add them seperately"
     fi
 
     mv "${tmp_movie_path}" "${movie_path}"
-
-    return $?
 }
 
 main() {
