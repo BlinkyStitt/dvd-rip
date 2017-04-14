@@ -1,9 +1,9 @@
 [![GitHub stars](https://img.shields.io/github/stars/WyseNynja/dockerfile-dvd-rip.svg?style=social)](https://github.com/WyseNynja/dockerfile-dvd-rip)
 [![License](https://img.shields.io/github/license/WyseNynja/dockerfile-dvd-rip.svg)](https://raw.githubusercontent.com/WyseNynja/dockerfile-dvd-rip/master/LICENSE)
 
-# DVD Rip
+**DEPRECATED! Now I use https://github.com/Robpol86/makemkv which ends with MKV files instead of VOB files.**
 
-DEPRECATED! Now I use https://github.com/Robpol86/makemkv which ends with MKV files instead of VOB files.
+# DVD Rip
 
 Easily rip a DVD to an MKV using [vobcopy](http://vobcopy.org/projects/c/c.shtml) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), [libdvdcss2](http://www.videolan.org/developers/libdvdcss/doc/html/) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), and [handbrake-cli](https://handbrake.fr) ([GPLv2](https://raw.githubusercontent.com/HandBrake/HandBrake/master/LICENSE)).
 
