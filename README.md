@@ -1,7 +1,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/WyseNynja/dockerfile-dvd-rip.svg?style=social)](https://github.com/WyseNynja/dockerfile-dvd-rip)
 [![License](https://img.shields.io/github/license/WyseNynja/dockerfile-dvd-rip.svg)](https://raw.githubusercontent.com/WyseNynja/dockerfile-dvd-rip/master/LICENSE)
 
-**DEPRECATED! Now I use https://github.com/Robpol86/makemkv which ends with MKV files instead of VOB files.**
+**DEPRECATED! Now I use https://github.com/Robpol86/makemkv which doesn't need the intermediate VOB files.**
 
 # DVD Rip
 
