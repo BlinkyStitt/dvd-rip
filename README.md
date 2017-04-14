@@ -3,6 +3,8 @@
 
 # DVD Rip
 
+DEPRECATED! Now I use https://github.com/Robpol86/makemkv which ends with MKV files instead of VOB files.
+
 Easily rip a DVD to an MKV using [vobcopy](http://vobcopy.org/projects/c/c.shtml) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), [libdvdcss2](http://www.videolan.org/developers/libdvdcss/doc/html/) ([GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)), and [handbrake-cli](https://handbrake.fr) ([GPLv2](https://raw.githubusercontent.com/HandBrake/HandBrake/master/LICENSE)).
 
 This started off as an experiment with docker and it didn't go well, so now I'm just using system packages.
